@@ -1,68 +1,76 @@
-// Adafruit_NeoMatrix example for single NeoPixel Shield.
-// Scrolls 'Howdy' across the matrix in a portrait (vertical) orientation.
+// Transbadge for c36c3
+// Amanda
 
-#include <Adafruit_GFX.h>
-#include <Adafruit_NeoMatrix.h>
+// Includes
 #include <Adafruit_NeoPixel.h>
-#ifndef PSTR
- #define PSTR // Make Arduino Due happy
-#endif
 
-#define PIN D5
+// Nodemcu data pin
+#define LED_PIN    D5
 
-// MATRIX DECLARATION:
-// Parameter 1 = width of NeoPixel matrix
-// Parameter 2 = height of matrix
-// Parameter 3 = pin number (most are valid)
-// Parameter 4 = matrix layout flags, add together as needed:
-//   NEO_MATRIX_TOP, NEO_MATRIX_BOTTOM, NEO_MATRIX_LEFT, NEO_MATRIX_RIGHT:
-//     Position of the FIRST LED in the matrix; pick two, e.g.
-//     NEO_MATRIX_TOP + NEO_MATRIX_LEFT for the top-left corner.
-//   NEO_MATRIX_ROWS, NEO_MATRIX_COLUMNS: LEDs are arranged in horizontal
-//     rows or in vertical columns, respectively; pick one or the other.
-//   NEO_MATRIX_PROGRESSIVE, NEO_MATRIX_ZIGZAG: all rows/columns proceed
-//     in the same order, or alternate lines reverse direction; pick one.
-//   See example below for these values in action.
-// Parameter 5 = pixel type flags, add together as needed:
+// Number of pixels
+#define LED_COUNT 32
+
+// Declare our NeoPixel strip object:
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+/*
+// Argument 1 = Number of pixels in NeoPixel strip
+// Argument 2 = Arduino pin number (most are valid)
+// Argument 3 = Pixel type flags, add together as needed:
 //   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
 //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
-//   NEO_GRBW    Pixels are wired for GRBW bitstream (RGB+W NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
+//   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
+*/
 
-
-// Example for NeoPixel Shield.  In this application we'd like to use it
-// as a 5x8 tall matrix, with the USB port positioned at the top of the
-// Arduino.  When held that way, the first pixel is at the top right, and
-// lines are arranged in columns, progressive order.  The shield uses
-// 800 KHz (v2) pixels that expect GRB color data.
-Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(4, 8, PIN,
-  NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
-  NEO_MATRIX_COLUMNS + NEO_MATRIX_PROGRESSIVE,
-  NEO_GRB            + NEO_KHZ800);
-
-const uint16_t colors[] = {
-  matrix.Color(255, 0, 0), matrix.Color(0, 255, 0), matrix.Color(0, 0, 255) };
-
+// setup() function -- runs once at startup --------------------------------
 void setup() {
-  matrix.begin();
-  matrix.setTextWrap(false);
-  matrix.setBrightness(40);
-  matrix.setTextColor(colors[0]);
+  strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
+  strip.show();            // Turn OFF all pixels ASAP
+  strip.setBrightness(10); // Set BRIGHTNESS to about 1/5 (max = 255)
 }
 
-int x    = matrix.width();
-int pass = 0;
 
+// loop() function -- runs repeatedly as long as board is on ---------------
 void loop() {
-  matrix.fillScreen(0);
-  matrix.setCursor(x, 0);
-  matrix.print(F("mandy"));
-  if(--x < -36) {
-    x = matrix.width();
-    if(++pass >= 3) pass = 0;
-    matrix.setTextColor(colors[pass]);
-  }
-  matrix.show();
-  delay(100);
+
+  transColors();
+  strip.show();
+  delay(500);
+}
+
+// Transgender Pride Flag Colors Hex, RGB & CMYK Codes
+// Color	Information
+// Maya Blue	Name: Maya Blue Hex: #55CDFC RGB: (85, 205, 252) CMYK: 0.662, 0.186, 0, 0.011
+// White	Name: White Hex: #FFFFFF RGB: (255, 255, 255) CMYK: 0, 0, 0, 0
+// Amaranth Pink	Name: Amaranth Pink Hex: #F7A8B8 RGB: (247, 168, 184) CMYK: 0, 0.319, 0.255, 0.031
+
+// Feather NeoPixel matrix adresses
+//  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7
+//  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15
+// 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23
+// 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31
+
+// Arrays to define the rows
+int row1[4] = {0, 8, 16, 24};
+int row2[4] = {1, 9, 17, 25};
+int row3[4] = {2, 10, 18, 26};
+int row4[4] = {3, 11, 19, 27};
+int row5[4] = {4, 12, 20, 28};
+int row6[4] = {5, 13, 21, 29};
+int row7[4] = {6, 14, 22, 30};
+int row8[4] = {7, 15, 23, 31};
+
+void transColors() {
+  for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row1[i]), 0, 128, 255); // Maya Blue
+    strip.setPixelColor((row2[i]), 255, 0, 127); // Amaranth Pink
+    strip.setPixelColor((row3[i]), 255, 0, 127); // Amaranth Pink
+    strip.setPixelColor((row4[i]), 255, 255, 255); // White
+    strip.setPixelColor((row5[i]), 255, 255, 255); // White
+    strip.setPixelColor((row6[i]), 255, 0, 127); // Amaranth Pink
+    strip.setPixelColor((row7[i]), 255, 0, 127); // Amaranth Pink
+    strip.setPixelColor((row8[i]), 0, 128, 255); // Maya Blue
+  }  
 }
