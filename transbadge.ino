@@ -26,18 +26,23 @@ void setup() {
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(10); // Set BRIGHTNESS to about 1/5 (max = 255)
+
+    for (int i = 0; i < 5; i++)
+  {
+    startUp();
+  }
 }
 
 // loop() function -- runs repeatedly as long as board is on ---------------
 void loop() {
 
-  transFlag();
-  strip.show();
+  transFlagShow();
   delay(5000);
 
-  prideFlag();
-  strip.show();
-  delay(5000);
+  transFlagCease();
+  delay(1000);
+
+
 }
 
 // Feather NeoPixel matrix adresses
@@ -47,14 +52,14 @@ void loop() {
 // 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31
 
 // Arrays to define the rows, since flags are mostly row based
-int row1[4] = {0, 8, 16, 24};
-int row2[4] = {1, 9, 17, 25};
-int row3[4] = {2, 10, 18, 26};
-int row4[4] = {3, 11, 19, 27};
-int row5[4] = {4, 12, 20, 28};
-int row6[4] = {5, 13, 21, 29};
-int row7[4] = {6, 14, 22, 30};
-int row8[4] = {7, 15, 23, 31};
+int row0[4] = {0, 8, 16, 24};
+int row1[4] = {1, 9, 17, 25};
+int row2[4] = {2, 10, 18, 26};
+int row3[4] = {3, 11, 19, 27};
+int row4[4] = {4, 12, 20, 28};
+int row5[4] = {5, 13, 21, 29};
+int row6[4] = {6, 14, 22, 30};
+int row7[4] = {7, 15, 23, 31};
 
 // Color declaration
 // Transflag
@@ -70,30 +75,139 @@ uint32_t orange = strip.Color(255, 128, 0);
 uint32_t red = strip.Color(204, 0, 0);
 uint32_t off = strip.Color(0, 0, 0);
 
-void transFlag() {
+// script which runs at startup one time
+void startUp() {
+for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row0[i]), mayaBlue);
+    strip.setPixelColor((row7[i]), mayaBlue);
+  }
+  strip.show();
+  delay(200);
+  strip.clear();
+
   for (int i = 0; i < 4; i++)
   {
-    strip.setPixelColor((row1[i]), mayaBlue);
-    strip.setPixelColor((row2[i]), amaranthPink);
-    strip.setPixelColor((row3[i]), amaranthPink);
-    strip.setPixelColor((row4[i]), white);
-    strip.setPixelColor((row5[i]), white);
+    strip.setPixelColor((row1[i]), amaranthPink);
     strip.setPixelColor((row6[i]), amaranthPink);
-    strip.setPixelColor((row7[i]), amaranthPink);
-    strip.setPixelColor((row8[i]), mayaBlue);
-  }  
+  }
+  strip.show();
+  delay(200);
+  strip.clear();
+
+    for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row2[i]), amaranthPink);
+    strip.setPixelColor((row5[i]), amaranthPink);
+  }
+  strip.show();
+  delay(200);
+  strip.clear();
+
+for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row3[i]), white);
+    strip.setPixelColor((row4[i]), white);
+  }
+  strip.show();
+  delay(200);
+  strip.clear();
 }
+
+void transFlagShow() {
+
+  for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row3[i]), white);
+    strip.setPixelColor((row4[i]), white);
+  }
+  strip.show();
+  delay(200);
+  
+    for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row2[i]), amaranthPink);
+    strip.setPixelColor((row5[i]), amaranthPink);
+  }
+  strip.show();
+  delay(200);
+
+  for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row1[i]), amaranthPink);
+    strip.setPixelColor((row6[i]), amaranthPink);
+  }
+  strip.show();
+  delay(200);
+
+  for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row0[i]), mayaBlue);
+    strip.setPixelColor((row7[i]), mayaBlue);
+  }
+  strip.show();
+  delay(200);
+}
+
+void transFlagCease() {
+
+    for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row3[i]), off);
+    strip.setPixelColor((row4[i]), off);
+  }
+
+  delay(200);
+  
+    for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row2[i]), off);
+    strip.setPixelColor((row5[i]), off);
+  }
+
+  delay(200);
+
+  for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row1[i]), off);
+    strip.setPixelColor((row6[i]), off);
+  }
+
+  delay(200);
+
+  for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row0[i]), off);
+    strip.setPixelColor((row7[i]), off);
+  }
+}
+
+  /*
+  void transFlag() {
+  for (int i = 0; i < 4; i++)
+  {
+    strip.setPixelColor((row0[i]), mayaBlue);
+    strip.setPixelColor((row1[i]), amaranthPink);
+    strip.setPixelColor((row2[i]), amaranthPink);
+    strip.setPixelColor((row3[i]), white);
+    strip.setPixelColor((row4[i]), white);
+    strip.setPixelColor((row5[i]), amaranthPink);
+    strip.setPixelColor((row6[i]), amaranthPink);
+    strip.setPixelColor((row7[i]), mayaBlue);
+  }  
+ 
 
 void prideFlag() {
   for (int i = 0; i < 4; i++)
   {
-    strip.setPixelColor((row1[i]), off);
-    strip.setPixelColor((row2[i]), amaranthPink);
-    strip.setPixelColor((row3[i]), blue);
-    strip.setPixelColor((row4[i]), lightGreen);
-    strip.setPixelColor((row5[i]), yellow);
-    strip.setPixelColor((row6[i]), orange);
-    strip.setPixelColor((row7[i]), red);
-    strip.setPixelColor((row8[i]), off);
+    strip.setPixelColor((row0[i]), off);
+    strip.setPixelColor((row1[i]), amaranthPink);
+    strip.setPixelColor((row2[i]), blue);
+    strip.setPixelColor((row3[i]), lightGreen);
+    strip.setPixelColor((row4[i]), yellow);
+    strip.setPixelColor((row5[i]), orange);
+    strip.setPixelColor((row6[i]), red);
+    strip.setPixelColor((row7[i]), off);
   }
 }
+*/
